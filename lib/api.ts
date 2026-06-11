@@ -7,7 +7,7 @@ import type {
   FilterOptions,
 } from "./types";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "/api";
 
 // ─── Token management ───────────────────────────────────────────────
 const TOKEN_KEY = "makon_jwt_token";
@@ -72,16 +72,28 @@ function toId(
 
 function mapProperty(p: Record<string, unknown>): Property {
   return {
-    id: toId((p.id ?? p._id) as string | { id?: string; _id?: string } | null | undefined),
+    id: toId(
+      (p.id ?? p._id) as
+        | string
+        | { id?: string; _id?: string }
+        | null
+        | undefined,
+    ),
     title: p.title as string,
     description: p.description as string,
     price: p.price as number,
     images: (p.images as string[]) ?? [],
-    location: (p.location ?? { lat: 0, lng: 0, address: "" }) as Property["location"],
+    location: (p.location ?? {
+      lat: 0,
+      lng: 0,
+      address: "",
+    }) as Property["location"],
     type: p.type as Property["type"],
     dealType: p.dealType as Property["dealType"],
     status: p.status as Property["status"],
-    sellerId: toId((p.sellerId as { id?: string })?.id ?? (p.sellerId as string)),
+    sellerId: toId(
+      (p.sellerId as { id?: string })?.id ?? (p.sellerId as string),
+    ),
     createdAt: p.createdAt as string,
     rooms: p.rooms as number,
     area: p.area as number,
@@ -95,7 +107,13 @@ function mapProperty(p: Record<string, unknown>): Property {
 
 function mapSeller(s: Record<string, unknown>): Seller {
   return {
-    id: toId((s.id ?? s._id) as string | { id?: string; _id?: string } | null | undefined),
+    id: toId(
+      (s.id ?? s._id) as
+        | string
+        | { id?: string; _id?: string }
+        | null
+        | undefined,
+    ),
     name: s.name as string,
     phone: s.phone as string,
     avatar: (s.avatar as string) || "/avatars/default.svg",
@@ -106,7 +124,13 @@ function mapSeller(s: Record<string, unknown>): Seller {
 
 function mapUser(u: Record<string, unknown>): User {
   return {
-    id: toId((u.id ?? u._id) as string | { id?: string; _id?: string } | null | undefined),
+    id: toId(
+      (u.id ?? u._id) as
+        | string
+        | { id?: string; _id?: string }
+        | null
+        | undefined,
+    ),
     name: u.name as string,
     phone: u.phone as string,
     avatar: (u.avatar as string) || "/avatars/user.svg",
@@ -116,10 +140,34 @@ function mapUser(u: Record<string, unknown>): User {
 
 function mapMessage(m: Record<string, unknown>): Message {
   return {
-    id: toId((m.id ?? m._id) as string | { id?: string; _id?: string } | null | undefined),
-    fromUserId: toId(((m.fromUserId as { id?: string })?.id ?? m.fromUserId) as string | { id?: string; _id?: string } | null | undefined),
-    toUserId: toId(((m.toUserId as { id?: string })?.id ?? m.toUserId) as string | { id?: string; _id?: string } | null | undefined),
-    propertyId: toId(((m.propertyId as { id?: string })?.id ?? m.propertyId) as string | { id?: string; _id?: string } | null | undefined),
+    id: toId(
+      (m.id ?? m._id) as
+        | string
+        | { id?: string; _id?: string }
+        | null
+        | undefined,
+    ),
+    fromUserId: toId(
+      ((m.fromUserId as { id?: string })?.id ?? m.fromUserId) as
+        | string
+        | { id?: string; _id?: string }
+        | null
+        | undefined,
+    ),
+    toUserId: toId(
+      ((m.toUserId as { id?: string })?.id ?? m.toUserId) as
+        | string
+        | { id?: string; _id?: string }
+        | null
+        | undefined,
+    ),
+    propertyId: toId(
+      ((m.propertyId as { id?: string })?.id ?? m.propertyId) as
+        | string
+        | { id?: string; _id?: string }
+        | null
+        | undefined,
+    ),
     text: m.text as string,
     createdAt: m.createdAt as string,
     read: (m.read as boolean) ?? false,
@@ -132,20 +180,27 @@ interface AuthResponse {
   user: Record<string, unknown>;
 }
 
-export async function apiLogin(phone: string): Promise<{ token: string; user: User }> {
-  const data = await request<AuthResponse>(
-    "/auth/login",
-    { method: "POST", body: JSON.stringify({ phone }), skipAuth: true },
-  );
+export async function apiLogin(
+  phone: string,
+): Promise<{ token: string; user: User }> {
+  const data = await request<AuthResponse>("/auth/login", {
+    method: "POST",
+    body: JSON.stringify({ phone }),
+    skipAuth: true,
+  });
   setToken(data.token);
   return { token: data.token, user: mapUser(data.user) };
 }
 
-export async function apiRegister(name: string, phone: string): Promise<{ token: string; user: User }> {
-  const data = await request<AuthResponse>(
-    "/auth/register",
-    { method: "POST", body: JSON.stringify({ name, phone }), skipAuth: true },
-  );
+export async function apiRegister(
+  name: string,
+  phone: string,
+): Promise<{ token: string; user: User }> {
+  const data = await request<AuthResponse>("/auth/register", {
+    method: "POST",
+    body: JSON.stringify({ name, phone }),
+    skipAuth: true,
+  });
   setToken(data.token);
   return { token: data.token, user: mapUser(data.user) };
 }
@@ -162,11 +217,16 @@ export async function apiFetchProperties(
   const params = new URLSearchParams();
   if (filters) {
     if (filters.search) params.set("search", filters.search);
-    if (filters.dealType && filters.dealType !== "all") params.set("dealType", filters.dealType);
-    if (filters.propertyType && filters.propertyType !== "all") params.set("propertyType", filters.propertyType);
-    if (filters.status && filters.status !== "all") params.set("status", filters.status);
-    if (filters.minPrice !== undefined) params.set("minPrice", String(filters.minPrice));
-    if (filters.maxPrice !== undefined) params.set("maxPrice", String(filters.maxPrice));
+    if (filters.dealType && filters.dealType !== "all")
+      params.set("dealType", filters.dealType);
+    if (filters.propertyType && filters.propertyType !== "all")
+      params.set("propertyType", filters.propertyType);
+    if (filters.status && filters.status !== "all")
+      params.set("status", filters.status);
+    if (filters.minPrice !== undefined)
+      params.set("minPrice", String(filters.minPrice));
+    if (filters.maxPrice !== undefined)
+      params.set("maxPrice", String(filters.maxPrice));
   }
   const qs = params.toString();
   const res = await request<{ data?: Record<string, unknown>[] }>(
@@ -180,7 +240,9 @@ export async function apiFetchProperties(
 }
 
 export async function apiFetchProperty(id: string): Promise<Property> {
-  const data = await request<Record<string, unknown>>(`/properties/${id}`, { skipAuth: true });
+  const data = await request<Record<string, unknown>>(`/properties/${id}`, {
+    skipAuth: true,
+  });
   return mapProperty(data);
 }
 
@@ -196,16 +258,22 @@ export async function apiCreateProperty(
 
 // ─── Sellers API ────────────────────────────────────────────────────
 export async function apiFetchSellers(): Promise<Seller[]> {
-  const data = await request<Record<string, unknown>[]>("/sellers", { skipAuth: true });
+  const data = await request<Record<string, unknown>[]>("/sellers", {
+    skipAuth: true,
+  });
   return data.map(mapSeller);
 }
 
 export async function apiFetchSeller(id: string): Promise<Seller> {
-  const data = await request<Record<string, unknown>>(`/sellers/${id}`, { skipAuth: true });
+  const data = await request<Record<string, unknown>>(`/sellers/${id}`, {
+    skipAuth: true,
+  });
   return mapSeller(data);
 }
 
-export async function apiFetchSellerProperties(sellerId: string): Promise<Property[]> {
+export async function apiFetchSellerProperties(
+  sellerId: string,
+): Promise<Property[]> {
   const data = await request<Record<string, unknown>[]>(
     `/sellers/${sellerId}/properties`,
     { skipAuth: true },
@@ -228,7 +296,11 @@ export async function apiSendMessage(
 ): Promise<Message> {
   const res = await request<Record<string, unknown>>("/messages", {
     method: "POST",
-    body: JSON.stringify({ toUserId, propertyId: propertyId || "general", text }),
+    body: JSON.stringify({
+      toUserId,
+      propertyId: propertyId || "general",
+      text,
+    }),
   });
   return mapMessage(res);
 }

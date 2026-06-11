@@ -1,0 +1,53 @@
+<svg width="680" height="380" viewBox="0 0 680 380" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- MAIN HORIZONTAL LOGO -->
+  <g transform="translate(40, 18)">
+    <path d="M60,0 C33,0 12,21 12,48 C12,74 60,132 60,132 C60,132 108,74 108,48 C108,21 87,0 60,0 Z" fill="#185FA5"/>
+    <circle cx="60" cy="46" r="24" fill="#FFFFFF"/>
+    <circle cx="60" cy="46" r="10" fill="#185FA5"/>
+  </g>
+
+  <text x="172" y="90" font-family="system-ui,-apple-system,sans-serif" font-size="58" font-weight="700" letter-spacing="-1.5" fill="#0C2440">makon</text>
+  <circle cx="460" cy="78" r="6" fill="#378ADD"/>
+  <text x="174" y="118" font-family="system-ui,sans-serif" font-size="13" font-weight="400" letter-spacing="5" fill="#888780">KO'CHMAS MULK</text>
+  <rect x="174" y="128" width="240" height="2" rx="1" fill="#378ADD"/>
+
+  <line x1="40" y1="175" x2="640" y2="175" stroke="#E6F1FB" stroke-width="1"/>
+
+  <!-- ICON ONLY VARIANTS -->
+  <text x="40" y="200" font-family="system-ui,sans-serif" font-size="10" font-weight="400" letter-spacing="3" fill="#B4B2A9">ICON VERSIYALAR</text>
+
+  <g transform="translate(38, 210) scale(0.65)">
+    <path d="M60,0 C33,0 12,21 12,48 C12,74 60,132 60,132 C60,132 108,74 108,48 C108,21 87,0 60,0 Z" fill="#185FA5"/>
+    <circle cx="60" cy="46" r="24" fill="#FFFFFF"/>
+    <circle cx="60" cy="46" r="10" fill="#185FA5"/>
+  </g>
+
+  <g transform="translate(140, 222) scale(0.42)">
+    <path d="M60,0 C33,0 12,21 12,48 C12,74 60,132 60,132 C60,132 108,74 108,48 C108,21 87,0 60,0 Z" fill="#185FA5"/>
+    <circle cx="60" cy="46" r="24" fill="#FFFFFF"/>
+    <circle cx="60" cy="46" r="10" fill="#185FA5"/>
+  </g>
+
+  <g transform="translate(210, 232) scale(0.26)">
+    <path d="M60,0 C33,0 12,21 12,48 C12,74 60,132 60,132 C60,132 108,74 108,48 C108,21 87,0 60,0 Z" fill="#185FA5"/>
+    <circle cx="60" cy="46" r="24" fill="#FFFFFF"/>
+    <circle cx="60" cy="46" r="10" fill="#185FA5"/>
+  </g>
+
+  <line x1="40" y1="300" x2="640" y2="300" stroke="#E6F1FB" stroke-width="1"/>
+
+  <!-- DARK VERSION -->
+  <rect x="40" y="312" width="600" height="56" rx="12" fill="#0C2440"/>
+
+  <g transform="translate(56, 316) scale(0.38)">
+    <path d="M60,0 C33,0 12,21 12,48 C12,74 60,132 60,132 C60,132 108,74 108,48 C108,21 87,0 60,0 Z" fill="#378ADD"/>
+    <circle cx="60" cy="46" r="24" fill="#FFFFFF"/>
+    <circle cx="60" cy="46" r="10" fill="#378ADD"/>
+  </g>
+
+  <text x="110" y="344" font-family="system-ui,-apple-system,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="#FFFFFF">makon</text>
+  <circle cx="235" cy="338" r="3.5" fill="#378ADD"/>
+  <text x="248" y="344" font-family="system-ui,sans-serif" font-size="11" font-weight="400" letter-spacing="4" fill="#85B7EB">KO'CHMAS MULK</text>
+
+</svg>

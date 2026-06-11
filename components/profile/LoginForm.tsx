@@ -14,11 +14,10 @@ import {
 interface LoginFormProps {
   onLogin: (name: string, phone: string) => void;
   onRegister: (name: string, phone: string) => Promise<User>;
-  sellerOnly?: boolean;
 }
 
-export default function LoginForm({ onLogin, onRegister, sellerOnly = false }: LoginFormProps) {
-  const [mode, setMode] = useState<"login" | "register">(sellerOnly ? "register" : "login");
+export default function LoginForm({ onLogin, onRegister }: LoginFormProps) {
+  const [mode, setMode] = useState<"login" | "register">("login");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
@@ -69,7 +68,9 @@ export default function LoginForm({ onLogin, onRegister, sellerOnly = false }: L
       try {
         await onRegister(name.trim(), normalized);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Ro'yxatdan o'tishda xatolik")
+        setError(
+          err instanceof Error ? err.message : "Ro'yxatdan o'tishda xatolik",
+        );
       } finally {
         setLoading(false);
       }
@@ -89,32 +90,20 @@ export default function LoginForm({ onLogin, onRegister, sellerOnly = false }: L
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ type: "spring", stiffness: 300, damping: 15 }}
-            className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg ${
-              sellerOnly
-                ? "bg-gradient-to-br from-amber-500 to-orange-600 shadow-amber-200"
-                : "bg-gradient-to-br from-blue-500 to-indigo-600 shadow-blue-200"
-            }`}
+            className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg bg-gradient-to-br from-blue-500 to-indigo-600 shadow-blue-200"
           >
-            {sellerOnly ? (
-              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m0 0l8 4m-8-4v10l8 4m0-10l8 4m-8-4v10" />
-              </svg>
-            ) : (
-              <UserIcon className="w-8 h-8 text-white" />
-            )}
+            <UserIcon className="w-8 h-8 text-white" />
           </motion.div>
           <h1 className="text-xl font-bold text-gray-900">
-            {mode === "login" ? "Tizimga kirish" : sellerOnly ? "Sotuvchi sifatida ro'yxatdan o'tish" : "Ro'yxatdan o'tish"}
+            {mode === "login" ? "Tizimga kirish" : "Ro'yxatdan o'tish"}
           </h1>
           <p className="text-sm text-gray-500 mt-1">
             {mode === "login"
               ? "Akkountingizga kiring"
-              : sellerOnly ? "Elonlar joylashtirish uchun"
               : "Yangi akkount yarating"}
           </p>
         </div>
 
-        {!sellerOnly && (
         <div className="flex bg-gray-100 rounded-xl p-1">
           <button
             type="button"
@@ -145,7 +134,6 @@ export default function LoginForm({ onLogin, onRegister, sellerOnly = false }: L
             Ro&apos;yxatdan o&apos;tish
           </button>
         </div>
-        )}
 
         <div className="space-y-3">
           <AnimatePresence>
@@ -186,19 +174,6 @@ export default function LoginForm({ onLogin, onRegister, sellerOnly = false }: L
             />
           </div>
 
-          <AnimatePresence>
-            {mode === "register" && sellerOnly && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-                className="text-sm text-amber-600 bg-amber-50 border border-amber-200 rounded-xl p-3 text-center"
-              >
-                Siz sotuvchi sifatida ro'yxatdan o'tyapsiz
-              </motion.div>
-            )}
-          </AnimatePresence>
-
           {error && <p className="text-sm text-red-500 text-center">{error}</p>}
 
           <motion.button
@@ -206,7 +181,9 @@ export default function LoginForm({ onLogin, onRegister, sellerOnly = false }: L
             whileTap={{ scale: 0.98 }}
             onClick={handleSubmit}
             disabled={
-              loading || !normalizePhone(phone) || (mode === "register" && !name.trim())
+              loading ||
+              !normalizePhone(phone) ||
+              (mode === "register" && !name.trim())
             }
             className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold text-sm hover:from-blue-700 hover:to-indigo-700 disabled:opacity-50 transition-all shadow-lg shadow-blue-200 flex items-center justify-center"
           >
@@ -226,4 +203,3 @@ export default function LoginForm({ onLogin, onRegister, sellerOnly = false }: L
     </div>
   );
 }
-
